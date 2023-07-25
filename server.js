@@ -1,8 +1,10 @@
 const express = require("express");
 const errorHandler = require("./middleware/errorHandler");
+const dbConnect = require("./config/dbConnection");
 require("dotenv").config();
-const app = express();
 
+const app = express();
+dbConnect();
 //middleswares
 app.use(express.json());
 app.use("/api/contacts", require("./routes/contact"));
