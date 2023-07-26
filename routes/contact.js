@@ -9,6 +9,7 @@ const {
 
 // router.route('/').get(getContacts).post(createContact)
 // we can chain the methods in similiar routes like this to avoid repeated code.
+//example: router.route("/").get(getContacts).post(createContact)
 
 router.get("/", getContacts);
 
