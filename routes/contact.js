@@ -21,4 +21,7 @@ router.put("/:id", updateContact);
 
 router.delete("/:id", deleteContact);
 
+// example
+// router.route("/:id").get(getContact).put(updateContact).delete(deleteContact);
+
 module.exports = router;
