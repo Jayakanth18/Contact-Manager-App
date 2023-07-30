@@ -53,7 +53,7 @@ const loginUser = asyncHandler(async (req, res) => {
         },
       },
       process.env.JWT_ACCESS_TOKEN_SECERT_KEY,
-      { expiresIn: "1m" }
+      { expiresIn: "15m" }
     );
     res.status(200).json({ accessToken });
   } else {

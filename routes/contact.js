@@ -6,6 +6,9 @@ const {
   updateContact,
   deleteContact,
 } = require("../controllers/contactController");
+const validateToken = require("../middleware/validateTokenHandler");
+
+router.use(validateToken);
 
 // router.route('/').get(getContacts).post(createContact)
 // we can chain the methods in similiar routes like this to avoid repeated code.

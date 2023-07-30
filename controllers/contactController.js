@@ -2,9 +2,10 @@ const asyncHandler = require("express-async-handler");
 const Contact = require("../models/contactModel");
 //to get all contact
 const getContacts = asyncHandler(async (req, res) => {
-  const contact = await Contact.find();
+  const contact = await Contact.find({ user_id: req.user.id });
   res.status(200).json(contact);
 });
+
 //to get single contact
 const getContact = asyncHandler(async (req, res) => {
   const contact = await Contact.findById(req.params.id);
@@ -14,6 +15,7 @@ const getContact = asyncHandler(async (req, res) => {
   }
   res.status(200).json(contact);
 });
+
 //to create a new contact
 const createContact = asyncHandler(async (req, res) => {
   const { name, email, phone } = req.body;
@@ -25,15 +27,22 @@ const createContact = asyncHandler(async (req, res) => {
     name,
     email,
     phone,
+    user_id: req.user.id,
   });
   res.status(201).json(contact);
 });
+
 //to update a existing contact
 const updateContact = asyncHandler(async (req, res) => {
   const contact = await Contact.findById(req.params.id);
   if (!contact) {
     res.status(404);
     throw new Error("Contact not found");
+  }
+
+  if (contact.user_id.toString() !== req.user.id) {
+    res.status(403);
+    throw new Error("You are not authorized to update this contact");
   }
 
   const updatedContact = await Contact.findByIdAndUpdate(
@@ -43,6 +52,7 @@ const updateContact = asyncHandler(async (req, res) => {
   );
   res.status(200).json(updatedContact);
 });
+
 //to delete contact
 const deleteContact = asyncHandler(async (req, res) => {
   let contact = await Contact.findById(req.params.id);
@@ -51,7 +61,12 @@ const deleteContact = asyncHandler(async (req, res) => {
     throw new Error("Contact not found");
   }
 
-  await Contact.remove();
+  if (contact.user_id.toString() !== req.user.id) {
+    res.status(403);
+    throw new Error("You are not authorized to update this contact");
+  }
+
+  await Contact.deleteOne({ _id: req.params.id });
   res.status(200).json(contact);
 });
 
