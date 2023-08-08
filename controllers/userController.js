@@ -9,7 +9,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (!username || !email || !password) {
     res.status(400);
     throw new Error(
-      "All the fields are mandatory like username, email and password."
+      "All the fields like username, email and password are mandatory."
     );
   }
   const userAvaliable = await User.findOne({ email });
@@ -39,7 +39,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     res.status(400);
-    throw new Error("All fields are mandatory like email and password");
+    throw new Error("All fields like email and password are mandatory");
   }
   const user = await User.findOne({ email });
   // comparing password with hashed password in the db.
