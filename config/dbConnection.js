@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const dbConnect = async () => {
   try {
-    const connect = await mongoose.connect(process.env.DB_CONNECTION_STRING);
+    const connect = await mongoose.connect("mongodb://127.0.0.1:27017/contact-manager");
     console.log(
       "success in db connection",
       connect.connection.host,
